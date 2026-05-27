@@ -903,7 +903,7 @@ alias cmkap='dopush cmka'
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/lineage/build/tools/repopick.py $@
+    $T/lineage/scripts/repopick/repopick.py "$@"
 }
 
 function sort-blobs-list() {
@@ -931,6 +931,10 @@ function fixup_common_out_dir() {
 }
 
 function build_kernel() {
+    if [[ "${SKIP_KERNEL_BUILD}" == "true" || "${SKIP_KERNEL_BUILD}" == "1" ]]; then
+        echo "Skipping kernel build"
+        return
+    fi
     local lineage_version="lineage-$(_get_build_var_cached PRODUCT_VERSION_MAJOR).$(_get_build_var_cached PRODUCT_VERSION_MINOR)"
 
     local target_kernel_device="$(_get_build_var_cached TARGET_KERNEL_DEVICE)"
